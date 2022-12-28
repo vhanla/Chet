@@ -15,7 +15,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Onyx Blue');
   Application.Title := 'Htrans';
   Application.CreateForm(TFormMain, FormMain);
   Application.Run;
