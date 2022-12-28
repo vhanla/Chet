@@ -27,7 +27,8 @@ uses
   Vcl.Menus,
   Vcl.ActnList,
   Chet.Project,
-  Chet.HeaderTranslator;
+  Chet.HeaderTranslator, SynEditHighlighter, SynEditCodeFolding,
+  SynHighlighterPas, SynEdit;
 
 type
   TFormMain = class(TForm)
@@ -132,6 +133,9 @@ type
     ComboBoxConvertUnsignedChar: TComboBox;
     CheckBoxDelayedLoading: TCheckBox;
     CheckBoxPrefixSymbolsWithUnderscore: TCheckBox;
+    CardOutput: TCard;
+    SynEdit1: TSynEdit;
+    SynPasSyn1: TSynPasSyn;
     procedure ButtonGroupCategoriesButtonClicked(Sender: TObject;
       Index: Integer);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -321,6 +325,8 @@ begin
   try
     Translator.OnMessage := HandleTranslatorMessage;
     Translator.Run;
+    if FileExists(FProject.TargetPasFile) then
+      SynEdit1.Lines.LoadFromFile(FProject.TargetPasFile);
   finally
     Translator.Free;
   end;
@@ -594,6 +600,8 @@ begin
 
   FProject.Load(AFilename);
   SetControls;
+  if FileExists(FProject.TargetPasFile) then
+    SynEdit1.Lines.LoadFromFile(FProject.TargetPasFile);
 end;
 
 procedure TFormMain.MemoIgnoreExit(Sender: TObject);
